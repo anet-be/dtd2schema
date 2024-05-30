@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Converted from a DTD by dtd2schema.py -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="CATFILE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ADMIN" minOccurs="0"/>
+        <xs:element ref="RECORD" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="system" type="xs:string" use="optional"/>
+      <xs:attribute name="time" type="xs:string" use="optional"/>
+      <xs:attribute name="action" use="optional" default="info">
+        <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+          <xs:enumeration value="replace"/>
+          <xs:enumeration value="add"/>
+          <xs:enumeration value="replaceholdings"/>
+          <xs:enumeration value="addholdings"/>
+          <xs:enumeration value="info"/>
+          <xs:enumeration value="show"/>
+            </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="id" type="xs:string" use="optional"/>
+      <xs:attribute name="contact" type="xs:string" use="optional"/>
+      <xs:attribute name="comment" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ADMIN">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ATTRIBUTE" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RECORD">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DSECTION" minOccurs="0"/>
+        <xs:element ref="TSECTION" minOccurs="0"/>
+        <xs:element ref="ISECTION" minOccurs="0"/>
+        <xs:element ref="BSECTION" minOccurs="0"/>
+        <xs:element ref="HSECTION" minOccurs="0"/>
+        <xs:element ref="CSECTION" minOccurs="0"/>
+        <xs:element ref="SSECTION" minOccurs="0"/>
+        <xs:element ref="RSECTION" minOccurs="0"/>
+        <xs:element ref="ASECTION" minOccurs="0"/>
+        <xs:element ref="LSECTION" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="cloi" type="xs:string" use="optional"/>
+      <xs:attribute name="un" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ATTRIBUTE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="DSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="HEADER" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="ATTRIBUTE" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="LIST" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TSECTION">
+    <xs:complexType>
+      <xs:attribute name="ss" type="xs:string" use="optional"/>
+      <xs:attribute name="cp" type="xs:string" use="optional"/>
+      <xs:attribute name="cd" type="xs:string" use="optional"/>
+      <xs:attribute name="mp" type="xs:string" use="optional"/>
+      <xs:attribute name="md" type="xs:string" use="optional"/>
+      <xs:attribute name="tp" type="xs:string" use="optional"/>
+      <xs:attribute name="td" type="xs:string" use="optional"/>
+      <xs:attribute name="fz" type="xs:string" use="optional"/>
+      <xs:attribute name="st" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ISECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="INFO" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="BSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TI" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="AU" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="NR" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="ED" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="LG" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="CO" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="LM" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="DR" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="IM" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="CA" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="NT" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="IN" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="HSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="LIB" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="SSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="SU" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="RELATION" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ASECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ACQ" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LSECTION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="LOCALDATA" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="DATA">
+  </xs:element>
+
+  <xs:element name="HEADER">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="ref" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LIST">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="list" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AUNR">
+    <xs:complexType>
+      <xs:attribute name="type" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CANR">
+    <xs:complexType>
+      <xs:attribute name="type" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="SUNR">
+    <xs:complexType>
+      <xs:attribute name="type" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="INFO">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="date" type="xs:string" use="optional"/>
+      <xs:attribute name="or" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LM">
+    <xs:complexType>
+      <xs:attribute name="lm" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="DR">
+    <xs:complexType>
+      <xs:attribute name="dr" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LG">
+    <xs:complexType>
+      <xs:attribute name="lg" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TITLE" minOccurs="0"/>
+        <xs:element ref="EX" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="lg" type="xs:string" use="optional"/>
+      <xs:attribute name="ap" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="ac" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="AU">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="VN" minOccurs="0"/>
+        <xs:element ref="FN" minOccurs="0"/>
+        <xs:element ref="EX" minOccurs="0"/>
+        <xs:element ref="AUNR" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="fu" type="xs:string" use="optional"/>
+      <xs:attribute name="ac" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="vw" type="xs:string" use="optional"/>
+      <xs:attribute name="vg" type="xs:string" use="optional"/>
+      <xs:attribute name="nr" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CA">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="NM" minOccurs="0"/>
+        <xs:element ref="EX" minOccurs="0"/>
+        <xs:element ref="CANR" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="fu" type="xs:string" use="optional"/>
+      <xs:attribute name="ac" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ED">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="IM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PL" minOccurs="0"/>
+        <xs:element ref="JU" minOccurs="0"/>
+        <xs:element ref="UG" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CO">
+    <xs:complexType>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+      <xs:attribute name="pg" type="xs:string" use="optional"/>
+      <xs:attribute name="il" type="xs:string" use="optional"/>
+      <xs:attribute name="fm" type="xs:string" use="optional"/>
+      <xs:attribute name="ka" type="xs:string" use="optional"/>
+      <xs:attribute name="sz" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="yr" type="xs:string" use="optional"/>
+      <xs:attribute name="nr" type="xs:string" use="optional"/>
+      <xs:attribute name="vo" type="xs:string" use="optional"/>
+      <xs:attribute name="bp" type="xs:string" use="optional"/>
+      <xs:attribute name="ep" type="xs:string" use="optional"/>
+      <xs:attribute name="am" type="xs:string" use="optional"/>
+      <xs:attribute name="df" type="xs:string" use="optional"/>
+      <xs:attribute name="if" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="NT">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="ta" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="NR">
+    <xs:complexType>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="nr" type="xs:string" use="optional"/>
+      <xs:attribute name="ch" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="ex" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="IN">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="CONT"/>
+        <xs:element ref="ACCESS" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="NOTE" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="sz" type="xs:string" use="optional"/>
+      <xs:attribute name="ta" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="mime" type="xs:string" use="optional"/>
+      <xs:attribute name="loc" type="xs:string" use="optional"/>
+      <xs:attribute name="so" type="xs:string" use="optional"/>
+      <xs:attribute name="pr" type="xs:string" use="optional"/>
+      <xs:attribute name="url" type="xs:string" use="optional"/>
+      <xs:attribute name="cd" type="xs:string" use="optional"/>
+      <xs:attribute name="dt" type="xs:string" use="optional"/>
+      <xs:attribute name="cu" type="xs:string" use="optional"/>
+      <xs:attribute name="md5" type="xs:string" use="optional"/>
+      <xs:attribute name="version" type="xs:string" use="optional"/>
+      <xs:attribute name="embargo" type="xs:string" use="optional"/>
+      <xs:attribute name="license" type="xs:string" use="optional"/>
+      <xs:attribute name="zurl" type="xs:string" use="optional"/>
+      <xs:attribute name="inline" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LIB">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="HOLDING" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="library" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="SU">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+        <xs:element ref="SUNR" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="ac" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RELATION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="cloi" type="xs:string" use="optional"/>
+      <xs:attribute name="sc" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="un" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ACQ">
+    <xs:complexType>
+      <xs:attribute name="qloi" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LOCALDATA">
+    <xs:complexType>
+    <xs:sequence>
+    <xs:any processContents="skip"/>
+    </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TITLE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="EX">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="FN">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="VN">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="NM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="PL">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="pso" type="xs:string" use="optional"/>
+      <xs:attribute name="pc" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="JU">
+    <xs:complexType>
+      <xs:attribute name="ju1ty" type="xs:string" use="optional"/>
+      <xs:attribute name="ju2ty" type="xs:string" use="optional"/>
+      <xs:attribute name="ju1sv" type="xs:string" use="optional"/>
+      <xs:attribute name="ju2sv" type="xs:string" use="optional"/>
+      <xs:attribute name="ju1dv" type="xs:string" use="optional"/>
+      <xs:attribute name="ju2dv" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="UG">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="fu" type="xs:string" use="optional"/>
+      <xs:attribute name="uc" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="CONT">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ACCESS">
+    <xs:complexType>
+      <xs:attribute name="access" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="NOTE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="HOLDING">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PK"/>
+        <xs:element ref="DISPLAY" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="PKNOTE" minOccurs="0"/>
+        <xs:element ref="PKBZ" minOccurs="0"/>
+        <xs:element ref="VOL" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+      <xs:attribute name="ploi" type="xs:string" use="optional"/>
+      <xs:attribute name="aw" type="xs:string" use="optional"/>
+      <xs:attribute name="id" type="xs:string" use="optional"/>
+      <xs:attribute name="ab" type="xs:string" use="optional"/>
+      <xs:attribute name="re" type="xs:string" use="optional"/>
+      <xs:attribute name="du" type="xs:string" use="optional"/>
+      <xs:attribute name="uc" type="xs:string" use="optional"/>
+      <xs:attribute name="ic" type="xs:string" use="optional"/>
+      <xs:attribute name="rc" type="xs:string" use="optional"/>
+      <xs:attribute name="mark" type="xs:string" use="optional"/>
+      <xs:attribute name="im" type="xs:string" use="optional"/>
+      <xs:attribute name="tx" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="PK">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="DISPLAY">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="ta" type="xs:string" use="optional"/>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="PKNOTE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="PKBZ">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="VOL">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="VOLNOTE" minOccurs="0"/>
+        <xs:element ref="OBJ" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="volume" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="VOLNOTE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="OBJ">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="OBJNOTE" minOccurs="0"/>
+        <xs:element ref="OBJNOTEI" minOccurs="0"/>
+        <xs:element ref="OBJINX" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="oloi" type="xs:string" use="optional"/>
+      <xs:attribute name="up" type="xs:string" use="optional"/>
+      <xs:attribute name="ip" type="xs:string" use="optional"/>
+      <xs:attribute name="rp" type="xs:string" use="optional"/>
+      <xs:attribute name="sg" type="xs:string" use="optional"/>
+      <xs:attribute name="bi" type="xs:string" use="optional"/>
+      <xs:attribute name="acq" type="xs:string" use="optional"/>
+      <xs:attribute name="cd" type="xs:string" use="optional"/>
+      <xs:attribute name="cu" type="xs:string" use="optional"/>
+      <xs:attribute name="dt" type="xs:string" use="optional"/>
+      <xs:attribute name="lntrans" type="xs:string" use="optional"/>
+      <xs:attribute name="aw" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="OBJNOTE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="OBJNOTEI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="OBJINX">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DATA"/>
+      </xs:sequence>
+      <xs:attribute name="ty" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
