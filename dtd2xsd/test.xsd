@@ -1,0 +1,36 @@
+<schema
+  xmlns='http://www.w3.org/2000/10/XMLSchema'
+  targetNamespace='http://www.w3.org/2001/XMLSchema'
+  xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+
+ <element name='note'>
+  <complexType>
+   <sequence>
+    <element ref='xs:to'/>
+    <element ref='xs:from'/>
+    <element ref='xs:heading'/>
+    <element ref='xs:body'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='to'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <element name='from'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <element name='heading'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <element name='body'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+</schema>

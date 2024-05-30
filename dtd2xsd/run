@@ -1,0 +1,3 @@
+#!/bin/sh
+
+perl dtd2xsd.pl -prefix "xs" -ns http://www.w3.org/2001/XMLSchema catxml.dtd > catxml.xsd

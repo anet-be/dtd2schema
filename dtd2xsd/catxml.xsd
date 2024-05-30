@@ -1,0 +1,650 @@
+<schema
+  xmlns='http://www.w3.org/2000/10/XMLSchema'
+  targetNamespace='http://www.w3.org/2001/XMLSchema'
+  xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+
+  <element name='CATFILE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:ADMIN' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:RECORD' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='system' type='string' use='optional' />
+      <attribute name='time' type='string' use='optional' />
+      <attribute name='action' use='default' value='info'>
+        <simpleType>
+          <restriction base='string'>
+            <enumeration value='replace' />
+            <enumeration value='add' />
+            <enumeration value='replaceholdings' />
+            <enumeration value='addholdings' />
+            <enumeration value='info' />
+            <enumeration value='show' />
+          </restriction>
+        </simpleType>
+      </attribute>
+      <attribute name='id' type='string' use='optional' />
+      <attribute name='contact' type='string' use='optional' />
+      <attribute name='comment' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='ADMIN'>
+    <complexType>
+      <sequence>
+        <element ref='xs:ATTRIBUTE' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='RECORD'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:TSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:ISECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:BSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:CSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:HSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:SSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:RSECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:ASECTION' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:LSECTION' minOccurs='0' maxOccurs='1' />
+      </sequence>
+      <attribute name='cloi' type='string' use='optional' />
+      <attribute name='un' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='ATTRIBUTE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='id' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='DSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:HEADER' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:ATTRIBUTE' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:LIST' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='TSECTION'>
+    <complexType>
+      <attribute name='ss' type='string' use='optional' />
+      <attribute name='cp' type='string' use='optional' />
+      <attribute name='cd' type='string' use='optional' />
+      <attribute name='mp' type='string' use='optional' />
+      <attribute name='md' type='string' use='optional' />
+      <attribute name='tp' type='string' use='optional' />
+      <attribute name='td' type='string' use='optional' />
+      <attribute name='fz' type='string' use='optional' />
+      <attribute name='st' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='ISECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:INFO' minOccurs='0' maxOccurs='1' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='BSECTION'>
+    <complexType>
+      <sequence minOccurs='0' maxOccurs='unbounded'>
+        <element ref='xs:LM' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:DR' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:LG' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:TI' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:AU' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:CA' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:ED' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:IM' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:CO' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:NT' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:NR' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='CSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:IN' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='HSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:LIB' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='SSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:SU' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='RSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:RELATION' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='ASECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:ACQ' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='LSECTION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:LCONTENT' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='DATA'>
+    <complexType mixed='true'>
+    </complexType>
+  </element>
+
+  <element name='HEADER'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='ref' type='string' use='required' />
+    </complexType>
+  </element>
+
+  <element name='LIST'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='list' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='AUNR'>
+    <complexType mixed='true'>
+      <attribute name='type' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='CANR'>
+    <complexType mixed='true'>
+      <attribute name='type' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='SUNR'>
+    <complexType mixed='true'>
+      <attribute name='type' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='INFO'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='date' type='string' use='optional' />
+      <attribute name='or' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='LM'>
+    <complexType>
+      <attribute name='lm' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='DR'>
+    <complexType>
+      <attribute name='dr' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='LG'>
+    <complexType>
+      <attribute name='lg' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='TI'>
+    <complexType>
+      <sequence>
+        <element ref='xs:TITLE' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:EX' minOccurs='0' maxOccurs='1' />
+      </sequence>
+      <attribute name='lg' type='string' use='optional' />
+      <attribute name='ap' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='ac' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='AU'>
+    <complexType>
+      <sequence>
+        <element ref='xs:FN' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:VN' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:EX' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:AUNR' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='fu' type='string' use='optional' />
+      <attribute name='ac' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='CA'>
+    <complexType>
+      <sequence>
+        <element ref='xs:NM' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:EX' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:CANR' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='fu' type='string' use='optional' />
+      <attribute name='ac' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='ED'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='so' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='IM'>
+    <complexType>
+      <sequence>
+        <element ref='xs:PL' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:JU' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:UG' minOccurs='0' maxOccurs='1' />
+      </sequence>
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='CO'>
+    <complexType>
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+      <attribute name='pg' type='string' use='optional' />
+      <attribute name='il' type='string' use='optional' />
+      <attribute name='fm' type='string' use='optional' />
+      <attribute name='ka' type='string' use='optional' />
+      <attribute name='sz' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='yr' type='string' use='optional' />
+      <attribute name='nr' type='string' use='optional' />
+      <attribute name='vo' type='string' use='optional' />
+      <attribute name='bp' type='string' use='optional' />
+      <attribute name='ep' type='string' use='optional' />
+      <attribute name='if' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='NT'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='so' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='ta' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='NR'>
+    <complexType>
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='nr' type='string' use='optional' />
+      <attribute name='ch' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='IN'>
+    <complexType>
+      <sequence>
+        <element ref='xs:CONT' />
+        <element ref='xs:ACCESS' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:NOTE' minOccurs='0' maxOccurs='1' />
+      </sequence>
+      <attribute name='sz' type='string' use='optional' />
+      <attribute name='ta' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='mime' type='string' use='optional' />
+      <attribute name='loc' type='string' use='optional' />
+      <attribute name='so' type='string' use='optional' />
+      <attribute name='pr' type='string' use='optional' />
+      <attribute name='url' type='string' use='optional' />
+      <attribute name='cd' type='string' use='optional' />
+      <attribute name='dt' type='string' use='optional' />
+      <attribute name='cu' type='string' use='optional' />
+      <attribute name='md5' type='string' use='optional' />
+      <attribute name='version' type='string' use='optional' />
+      <attribute name='embargo' type='string' use='optional' />
+      <attribute name='inline' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='LIB'>
+    <complexType>
+      <sequence>
+        <element ref='xs:HOLDING' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='library' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='SU'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+        <element ref='xs:SUNR' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='ac' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='RELATION'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='cloi' type='string' use='optional' />
+      <attribute name='sc' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='un' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='ACQ'>
+    <complexType>
+      <attribute name='qloi' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='LCONTENT'>
+    <complexType>
+      <sequence>
+        <element ref='xs:LATT' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:LATTGROUP' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='id' type='string' use='required' />
+    </complexType>
+  </element>
+
+  <element name='LATTGROUP'>
+    <complexType>
+      <sequence>
+        <element ref='xs:LATT' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='id' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='LATT'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='id' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='TITLE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='EX'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='FN'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='VN'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='NM'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='PL'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='pso' type='string' use='optional' />
+      <attribute name='pc' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='JU'>
+    <complexType>
+      <attribute name='ju1ty' type='string' use='optional' />
+      <attribute name='ju2ty' type='string' use='optional' />
+      <attribute name='ju1sv' type='string' use='optional' />
+      <attribute name='ju2sv' type='string' use='optional' />
+      <attribute name='ju1dv' type='string' use='optional' />
+      <attribute name='ju2dv' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='UG'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='fu' type='string' use='optional' />
+      <attribute name='uc' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='CONT'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='ACCESS'>
+    <complexType>
+      <attribute name='access' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='NOTE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='HOLDING'>
+    <complexType>
+      <sequence>
+        <element ref='xs:PK' />
+        <element ref='xs:DISPLAY' minOccurs='0' maxOccurs='unbounded' />
+        <element ref='xs:PKNOTE' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:PKBZ' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:VOL' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='ty' type='string' use='optional' />
+      <attribute name='ploi' type='string' use='optional' />
+      <attribute name='aw' type='string' use='optional' />
+      <attribute name='id' type='string' use='optional' />
+      <attribute name='ab' type='string' use='optional' />
+      <attribute name='re' type='string' use='optional' />
+      <attribute name='du' type='string' use='optional' />
+      <attribute name='uc' type='string' use='optional' />
+      <attribute name='ic' type='string' use='optional' />
+      <attribute name='rc' type='string' use='optional' />
+      <attribute name='mark' type='string' use='optional' />
+      <attribute name='im' type='string' use='optional' />
+      <attribute name='tx' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='PK'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='DISPLAY'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='ta' type='string' use='optional' />
+      <attribute name='ty' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='PKNOTE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='PKBZ'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='VOL'>
+    <complexType>
+      <sequence>
+        <element ref='xs:VOLNOTE' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:OBJ' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='volume' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='VOLNOTE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='OBJ'>
+    <complexType>
+      <sequence>
+        <element ref='xs:OBJNOTE' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:OBJNOTEI' minOccurs='0' maxOccurs='1' />
+        <element ref='xs:OBJINX' minOccurs='0' maxOccurs='unbounded' />
+      </sequence>
+      <attribute name='oloi' type='string' use='optional' />
+      <attribute name='up' type='string' use='optional' />
+      <attribute name='ip' type='string' use='optional' />
+      <attribute name='rp' type='string' use='optional' />
+      <attribute name='sg' type='string' use='optional' />
+      <attribute name='bi' type='string' use='optional' />
+      <attribute name='acq' type='string' use='optional' />
+      <attribute name='cd' type='string' use='optional' />
+      <attribute name='cu' type='string' use='optional' />
+      <attribute name='dt' type='string' use='optional' />
+      <attribute name='aw' type='string' use='optional' />
+    </complexType>
+  </element>
+
+  <element name='OBJNOTE'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='OBJNOTEI'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name='OBJINX'>
+    <complexType>
+      <sequence>
+        <element ref='xs:DATA' />
+      </sequence>
+      <attribute name='ty' type='string' use='optional' />
+    </complexType>
+  </element>
+</schema>

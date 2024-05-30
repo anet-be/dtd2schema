@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CATFILE [
+
+<!--Beschrijft een catalografische database-->
+<!ELEMENT CATFILE  (ADMIN?,RECORD*) >
+
+<!--system: system name
+time: YYYYMMDD or YYYYMMDDhhmmss
+action: replace/add/replaceholdings/addholdings/info-->
+<!ATTLIST CATFILE
+               system  CDATA    #IMPLIED
+               time  CDATA    #IMPLIED
+               action (replace | add | replaceholdings | addholdings | info | show)  "info"
+               id  CDATA    #IMPLIED
+               contact  CDATA    #IMPLIED
+               comment  CDATA    #IMPLIED  >
+
+<!ELEMENT ADMIN  (ATTRIBUTE*) >
+
+<!--Individule record-->
+<!ELEMENT RECORD  (DSECTION?,TSECTION?,ISECTION?,BSECTION?,CSECTION?,HSECTION?,
+               SSECTION?,RSECTION?,ASECTION?,LSECTION?) >
+
+<!--cloi: Library Object Identifier
+status: d=deleted-->
+<!ATTLIST RECORD
+               cloi  CDATA    #IMPLIED
+               un  CDATA    #IMPLIED  >
+
+<!ELEMENT ATTRIBUTE  (DATA) >
+
+<!ATTLIST ATTRIBUTE
+               id  CDATA    #IMPLIED  >
+
+<!ELEMENT DSECTION  (HEADER*,ATTRIBUTE*,LIST*) >
+
+<!--Technisch (systeem) gedeelte-->
+<!ELEMENT TSECTION   EMPTY  >
+
+<!--ss: de inhoud van het statusveld (edittoken)
+cp: creator id van de record
+cd: creatie tijdstip van dit record
+mp: id van de persoon die deze record laatst gewijzigd heeft
+md: tijdstip waarop deze record laatst gewijzigd werd
+tp: id van de persoon die deze record laatst gecontroleerd heeft
+td: tijdstip waarop deze record laatst gecontroleerd werd
+fz: 0/1 is de record bevroren ?
+st: status (d=deleted,leeg=default)-->
+<!ATTLIST TSECTION
+               ss  CDATA    #IMPLIED
+               cp  CDATA    #IMPLIED
+               cd  CDATA    #IMPLIED
+               mp  CDATA    #IMPLIED
+               md  CDATA    #IMPLIED
+               tp  CDATA    #IMPLIED
+               td  CDATA    #IMPLIED
+               fz  CDATA    #IMPLIED
+               st  CDATA    #IMPLIED  >
+
+<!--Informatie gedeelte (interne communicatie)-->
+<!ELEMENT ISECTION  (INFO?) >
+
+<!--Bibliografische informatie-->
+<!ELEMENT BSECTION  (LM*,DR*,LG*,TI*,AU*,CA*,ED*,IM*,CO*,NT*,NR*)* >
+
+<!--Sectie met aanvullingen, abstracts, full text, multimedia-->
+<!ELEMENT CSECTION  (IN*) >
+
+<!--Holding informatie-->
+<!ELEMENT HSECTION  (LIB*) >
+
+<!--Subject informatie-->
+<!ELEMENT SSECTION  (SU*) >
+
+<!--Relaties met andere records-->
+<!ELEMENT RSECTION  (RELATION*) >
+
+<!--Acquisitie informatie-->
+<!ELEMENT ASECTION  (ACQ*) >
+
+<!--Lokale data-->
+<!ELEMENT LSECTION  (LCONTENT*) >
+
+<!ELEMENT DATA  (#PCDATA) >
+
+<!ELEMENT HEADER  (DATA) >
+
+<!--ref: referentie naar het headerelement.-->
+<!ATTLIST HEADER
+               ref  CDATA    #REQUIRED  >
+
+<!ELEMENT LIST  (DATA) >
+
+<!ATTLIST LIST
+               list  CDATA    #IMPLIED  >
+
+<!ELEMENT AUNR  (#PCDATA) >
+
+<!ATTLIST AUNR
+               type  CDATA    #IMPLIED  >
+
+<!ELEMENT CANR  (#PCDATA) >
+
+<!ATTLIST CANR
+               type  CDATA    #IMPLIED  >
+
+<!ELEMENT SUNR  (#PCDATA) >
+
+<!ATTLIST SUNR
+               type  CDATA    #IMPLIED  >
+
+<!--Informatie velden ten behoeve van de catalografen-->
+<!ELEMENT INFO  (DATA) >
+
+<!--or: origine van de infoveld (userid)
+pr: processing information-->
+<!ATTLIST INFO
+               date CDATA   #IMPLIED
+               or  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED  >
+
+<!--Lidmaatschappen-->
+<!ELEMENT LM   EMPTY  >
+
+<!--lm: lidmaatschap-->
+<!ATTLIST LM
+               lm  CDATA    #IMPLIED  >
+
+<!--Fysieke dragers-->
+<!ELEMENT DR   EMPTY  >
+
+<!--dr: drager-->
+<!ATTLIST DR
+               dr  CDATA    #IMPLIED  >
+
+<!--Talen gebruikt in de inhoud van het werk-->
+<!ELEMENT LG   EMPTY  >
+
+<!--lg: taalcode (ISO standard)
+ty: type taal code (gebruikt voor oude drukken: standaard = dt)-->
+<!ATTLIST LG
+               lg  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED  >
+
+<!--Titel-->
+<!ELEMENT TI  (TITLE?,EX?) >
+
+<!--lg: de taal van deze titel
+ap: plaats van alfabetisering
+ty: type van de titel.
+ac: leeg of authority cpde
+pr: processing information.
+so: bibliografische bron-->
+<!ATTLIST TI
+               lg  CDATA    #IMPLIED
+               ap  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED
+               ac  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED  >
+
+<!--Persoonlijke auteur-->
+<!ELEMENT AU  (FN?,VN?,EX?,AUNR*) >
+
+<!--fu: functie van de auteur
+ac: leeg of authority cpde
+pr: processing information.
+so: bibliografische bron-->
+<!ATTLIST AU
+               fu  CDATA    #IMPLIED
+               ac  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED  >
+
+<!--Corporatieve auteur-->
+<!ELEMENT CA  (NM?,EX?,CANR*) >
+
+<!ATTLIST CA
+               fu  CDATA    #IMPLIED
+               ac  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED  >
+
+<!--Editie-->
+<!ELEMENT ED  (DATA) >
+
+<!ATTLIST ED
+               so  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED  >
+
+<!--Impressum veld-->
+<!ELEMENT IM  (PL?,JU?,UG?) >
+
+<!--ty: type van het impressum veld
+pr: processing informatie
+so: bron van de informatie-->
+<!ATTLIST IM
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED  >
+
+<!--Collatie-->
+<!ELEMENT CO   EMPTY  >
+
+<!--pg: de omvang, vroeger ook paginering genoemd
+il: illustratieaanduiding
+fm: formaataanduiding
+ka: katernopbouw
+sz: grootte (cm, uren, Kbytes)
+so: oorsprong van de informatie
+pr: processing instructies-->
+<!ATTLIST CO
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED
+               pg  CDATA    #IMPLIED
+               il  CDATA    #IMPLIED
+               fm  CDATA    #IMPLIED
+               ka  CDATA    #IMPLIED
+               sz  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED
+               yr  CDATA    #IMPLIED
+               nr  CDATA    #IMPLIED
+               vo  CDATA    #IMPLIED
+               bp  CDATA    #IMPLIED
+               ep  CDATA    #IMPLIED
+               if  CDATA    #IMPLIED  >
+
+<!--Noot-->
+<!ELEMENT NT  (DATA) >
+
+<!--ta: gebruikstaal (N, E, F, U)
+pr: processing instructie
+ta: taal gebruiker
+ty: type-->
+<!ATTLIST NT
+               so  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED
+               ta  CDATA    #IMPLIED  >
+
+<!--Nummers-->
+<!ELEMENT NR   EMPTY  >
+
+<!--nr: nummer
+ch: 0/1 gecontroleerd
+pr: processing instructie
+so: bron
+ty: type
+ex: extensie (vb. voor meerdere ISBNs)-->
+<!ATTLIST NR
+               ty  CDATA    #IMPLIED
+               nr  CDATA    #IMPLIED
+               ch  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED  >
+
+<!--Inhoudsveld-->
+<!ELEMENT IN  (CONT,ACCESS*,NOTE?) >
+
+<!--ta: de taal van de full-textveld (N, E, F, U)
+mime: mime type
+sz: size in bytes
+loc: retrieval techniek (txt, url, purl, ...)
+ty: type full-textveld (full: full-text, ill: illustratie, abstract: abstract)
+pr: processing informatie
+so: bibliografische bron
+url: url waar dit gegeven kan gevonden worden
+md5: message digest
+dt: datum van invoer
+cd: datum van laatste controle op bestaan url
+cu: persoon (processe) die de controle uitvoerde
+version: versie informatie
+embargo: datum (+$H_"," formaat waarop de tekst toegankelijk wordt onder de access condities
+inline: 0/1 moet dit inline in de webpagina komen-->
+<!ATTLIST IN
+               sz  CDATA    #IMPLIED
+               ta  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED
+               mime  CDATA    #IMPLIED
+               loc  CDATA    #IMPLIED
+               so  CDATA    #IMPLIED
+               pr  CDATA    #IMPLIED
+               url  CDATA    #IMPLIED
+               cd  CDATA    #IMPLIED
+               dt  CDATA    #IMPLIED
+               cu  CDATA    #IMPLIED
+               md5  CDATA    #IMPLIED
+               version CDATA    #IMPLIED
+               embargo CDATA    #IMPLIED
+               inline  CDATA    #IMPLIED  >
+
+<!ELEMENT LIB  (HOLDING*) >
+
+<!ATTLIST LIB
+               library  CDATA    #IMPLIED  >
+
+<!--Subject code-->
+<!ELEMENT SU  (DATA, SUNR*) >
+
+<!ATTLIST SU
+               ac  CDATA    #IMPLIED  >
+
+<!--Relatie-->
+<!ELEMENT RELATION  (DATA) >
+
+<!--sc: sorteercode-->
+<!ATTLIST RELATION
+               cloi  CDATA    #IMPLIED
+               sc  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED
+               un  CDATA    #IMPLIED  >
+
+<!ELEMENT ACQ   EMPTY  >
+
+<!--Library Object Identifier-->
+<!ATTLIST ACQ
+               qloi  CDATA    #IMPLIED  >
+
+<!ELEMENT LCONTENT   (LATT*, LATTGROUP*)  >
+
+<!--Local content-->
+<!ATTLIST LCONTENT
+               id  CDATA    #REQUIRED  >
+
+<!ELEMENT LATTGROUP   (LATT*)  >
+
+<!ATTLIST LATTGROUP
+               id  CDATA    #IMPLIED  >
+
+<!ELEMENT LATT   (DATA)  >
+
+<!ATTLIST LATT
+               id  CDATA    #IMPLIED  >
+
+
+
+
+<!--Titel weergave-->
+<!ELEMENT TITLE  (DATA) >
+
+<!--Extensie-->
+<!ELEMENT EX  (DATA) >
+
+<!--Familienaam-->
+<!ELEMENT FN  (DATA) >
+
+<!--Voornaam-->
+<!ELEMENT VN  (DATA) >
+
+<!--Naam-->
+<!ELEMENT NM  (DATA) >
+
+<!--Plaats van uitgave-->
+<!ELEMENT PL  (DATA) >
+
+<!--pso: bron voor de plaats van uitgave
+ac: eventuele authoritycode-->
+<!ATTLIST PL
+               pso  CDATA    #IMPLIED
+               pc  CDATA    #IMPLIED  >
+
+<!--jaar van uitgave-->
+<!ELEMENT JU   EMPTY  >
+
+<!--ju1ty: eerste jaar van uitgave, type
+ju1sv: eerste jaar van uitgave, sorteerwaarde
+ju1dv: eerste jaar van uitgave, displaywaarde
+ju2ty: eerste jaar van uitgave, type
+ju2sv: eerste jaar van uitgave, sorteerwaarde
+ju2dv: eerste jaar van uitgave, displaywaarde-->
+<!ATTLIST JU
+               ju1ty  CDATA    #IMPLIED
+               ju2ty  CDATA    #IMPLIED
+               ju1sv  CDATA    #IMPLIED
+               ju2sv  CDATA    #IMPLIED
+               ju1dv  CDATA    #IMPLIED
+               ju2dv  CDATA    #IMPLIED  >
+
+<!--Uitgever-->
+<!ELEMENT UG  (DATA) >
+
+<!--ac: eventuele authority code
+fu: functie van de uitgever-->
+<!ATTLIST UG
+               fu  CDATA    #IMPLIED
+               uc  CDATA    #IMPLIED  >
+
+<!--Inhoud-->
+<!ELEMENT CONT  (DATA) >
+
+<!--Toegansgegevens-->
+<!ELEMENT ACCESS   EMPTY  >
+
+<!--access: toegelaten identifier-->
+<!ATTLIST ACCESS
+               access  CDATA    #IMPLIED  >
+
+<!--Noot-->
+<!ELEMENT NOTE  (DATA) >
+
+<!ELEMENT HOLDING  (PK,DISPLAY*,PKNOTE?,PKBZ?,VOL*) >
+
+<!--ploi: plaatskenmerk identifier
+ty: type plaatskenmerk
+aw: aanwinstentijdstip ($H formaat)
+id: identificatie nummer in de eigen databank
+ab: abonnementslink
+re: reference. Dit wordt gebruikt bij convoluten. Als de reference bestaat en niet leeg is, is dit een bibliografisch recordnummer in exchange format. Het is de bedoeling dat volume en exemplaar gegevens teruggevonden kunnen worden bij dezelfde instelling en plaatskenmerk bij deze reference record.
+du: default uitleencategorie
+uc: algemene uitleenbaarheidsinformatie
+ic: algemene ibl informatie
+rc: algemene raadpleeginformatie
+mark: 0/1 flag-->
+<!ATTLIST HOLDING
+               ty  CDATA    #IMPLIED
+               ploi  CDATA    #IMPLIED
+               aw  CDATA    #IMPLIED
+               id  CDATA    #IMPLIED
+               ab  CDATA    #IMPLIED
+               re  CDATA    #IMPLIED
+               du  CDATA    #IMPLIED
+               uc  CDATA    #IMPLIED
+               ic  CDATA    #IMPLIED
+               rc  CDATA    #IMPLIED
+               mark  CDATA    #IMPLIED
+               im  CDATA    #IMPLIED
+               tx  CDATA    #IMPLIED  >
+
+<!ELEMENT PK  (DATA) >
+
+<!ELEMENT DISPLAY  (DATA) >
+
+<!--ta: taal van d egebruiker
+ty: type-->
+<!ATTLIST DISPLAY
+               ta  CDATA    #IMPLIED
+               ty  CDATA    #IMPLIED  >
+
+<!ELEMENT PKNOTE  (DATA) >
+
+<!ELEMENT PKBZ  (DATA) >
+
+<!ELEMENT VOL  (VOLNOTE?,OBJ*) >
+
+<!ATTLIST VOL
+               volume  CDATA    #IMPLIED  >
+
+<!ELEMENT VOLNOTE  (DATA) >
+
+<!ELEMENT OBJ  (OBJNOTE?,OBJNOTEI?,OBJINX*) >
+
+<!--acq: link met acquisitie
+bi: het aantal bijlagen
+cd: tijdstip van laatste controle
+cu: persoon die laatste controle uitvoere
+ip: ibl-parameter
+oloi: object identifier
+aw: aanwinstennumer
+up: uitleenparameter
+rp: raadplaagparameter
+sg: sigillum-->
+<!ATTLIST OBJ
+               oloi  CDATA    #IMPLIED
+               up  CDATA    #IMPLIED
+               ip  CDATA    #IMPLIED
+               rp  CDATA    #IMPLIED
+               sg  CDATA    #IMPLIED
+               bi  CDATA    #IMPLIED
+               acq  CDATA    #IMPLIED
+               cd  CDATA    #IMPLIED
+               cu  CDATA    #IMPLIED
+               dt  CDATA    #IMPLIED
+               aw  CDATA    #IMPLIED  >
+
+<!ELEMENT OBJNOTE  (DATA) >
+
+<!ELEMENT OBJNOTEI  (DATA) >
+
+<!ELEMENT OBJINX  (DATA) >
+
+<!--Type van het objectindex (vb. bc voor barcode)-->
+<!ATTLIST OBJINX
+               ty  CDATA    #IMPLIED  >
+
+]>
