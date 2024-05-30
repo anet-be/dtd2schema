@@ -6,11 +6,11 @@ subclass of the parser object that sets this up.
 $Id: xmlval.py,v 2.10 2000/05/11 11:50:18 anonymous Exp $
 """
 
-import urlparse,os,anydbm,string,cPickle,time
+import urllib.parse,os,dbm,string,pickle,time
 
-from xmlproc import *
-from xmldtd import *
-from xmlapp import *
+from .xmlproc import *
+from .xmldtd import *
+from .xmlapp import *
 
 # ==============================
 # The validator class
@@ -134,7 +134,7 @@ class XMLValidator:
     def get_current_ent_stack(self):
         """Returns a snapshot of the entity stack. A list of the system
         identifier of the entity and its name, if any."""
-        return map(lambda ent: (ent[0],ent[9]),self.parser.ent_stack)
+        return [(ent[0],ent[9]) for ent in self.parser.ent_stack]
         
 # ==============================
 # Application object that checks the document
@@ -186,7 +186,7 @@ class ValidatingApp(Application):
 	    self.cur_elem=self.dtd.get_elem(name)
             self.cur_state=self.cur_elem.get_start_state()
 	    self.validate_attributes(self.dtd.get_elem(name),attrs)
-	except KeyError,e:
+	except KeyError as e:
 	    self.parser.report_error(2003,name)
 	    self.cur_state=-1
 
@@ -227,10 +227,10 @@ class ValidatingApp(Application):
 	fixed and default attributes."""
 
 	# Check the values of the present attributes
-	for attr in attrs.keys():
+	for attr in list(attrs.keys()):
 	    try:
 		decl=element.get_attr(attr)
-	    except KeyError,e:
+	    except KeyError as e:
 		self.parser.report_error(2006,attr)
                 return
         
@@ -240,7 +240,7 @@ class ValidatingApp(Application):
             decl.validate(attrs[attr],self.parser)
                 
 	    if decl.type=="ID":
-		if self.ids.has_key(attrs[attr]):
+		if attrs[attr] in self.ids:
 		    self.parser.report_error(2007,attrs[attr])
 		self.ids[attrs[attr]]=""
 	    elif decl.type=="IDREF":
@@ -261,7 +261,7 @@ class ValidatingApp(Application):
         # Check for missing required attributes
 	for attr in element.get_attr_list():
 	    decl=element.get_attr(attr)
-	    if decl.decl=="#REQUIRED" and not attrs.has_key(attr):
+	    if decl.decl=="#REQUIRED" and attr not in attrs:
 		self.parser.report_error(2010,attr)
 
     def __validate_attr_entref(self,name):
@@ -272,14 +272,14 @@ class ValidatingApp(Application):
             else:
                 try:
                     self.dtd.get_notation(ent.notation)
-                except KeyError,e:
+                except KeyError as e:
                     self.parser.report_error(2009,ent.notation)
-        except KeyError,e:
+        except KeyError as e:
             self.parser.report_error(3021,name)        
                 
     def doc_end(self):
 	for (line,col,id) in self.idrefs:
-	    if not self.ids.has_key(id):
+	    if id not in self.ids:
 		self.parser.report_error(2011,id)
 
 	self.realapp.doc_end()

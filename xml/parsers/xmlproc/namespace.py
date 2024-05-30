@@ -6,7 +6,7 @@ $Id: namespace.py,v 2.4 1999/10/30 21:57:45 larsga Exp $
 """
 
 import string
-import xmlapp
+from . import xmlapp
 
 # --- ParserFilter
 
@@ -84,7 +84,7 @@ class NamespaceFilter(ParserFilter):
         # attrs=attrs.copy()   Will have to do this if more filters are made
 
         # Find declarations, update self.ns_map and self.ns_stack
-        for (a,v) in attrs.items():
+        for (a,v) in list(attrs.items()):
             if a[:6]=="xmlns:":
                 prefix=a[6:]
                 if string.find(prefix,":")!=-1:
@@ -97,7 +97,7 @@ class NamespaceFilter(ParserFilter):
             else:
                 continue
 
-            if self.ns_map.has_key(prefix):
+            if prefix in self.ns_map:
                 old_ns[prefix]=self.ns_map[prefix]
             else:
                 del_ns.append(prefix)
@@ -121,10 +121,10 @@ class NamespaceFilter(ParserFilter):
         else:
             ns=None
             
-        for (a,v) in attrs.items():
+        for (a,v) in list(attrs.items()):
             del attrs[a]
             aname=self.__process_name(a,ns)
-            if attrs.has_key(aname):
+            if aname in attrs:
                     self.parser.report_error(1903)                
             attrs[aname]=v
         
@@ -162,7 +162,7 @@ class NamespaceFilter(ParserFilter):
                 return name
         elif default_to!=None:
             return "%s %s" % (default_to,name)
-        elif self.ns_map.has_key("") and name!="xmlns":
+        elif "" in self.ns_map and name!="xmlns":
             return "%s %s" % (self.ns_map[""],name)
         else:
             return name

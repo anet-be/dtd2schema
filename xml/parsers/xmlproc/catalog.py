@@ -5,7 +5,7 @@ $Id: catalog.py,v 2.4 2000/01/03 15:38:23 larsga Exp $
 
 import string,sys
 
-import xmlutils,xmlapp
+from . import xmlutils,xmlapp
 
 # --- Parser factory class
 
@@ -91,14 +91,14 @@ class CatalogParser(AbstrCatalogParser,xmlutils.EntityParser):
                     break
 
                 entryname=self.find_reg(xmlutils.reg_ws)
-                if not self.entry_hash.has_key(entryname):
+                if entryname not in self.entry_hash:
                     self.report_error(5100,(entryname,))
                 else:
                     self.parse_entry(entryname,self.entry_hash[entryname])
 
-	except xmlutils.OutOfDataException,e:
+	except xmlutils.OutOfDataException as e:
 	    if self.final:
-		raise sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2]
+		raise sys.exc_info()[0](sys.exc_info()[1]).with_traceback(sys.exc_info()[2])
 	        #raise e
 	    else:
 		self.pos=prepos  # Didn't complete the construct
@@ -188,11 +188,11 @@ class CatalogManager(CatalogApp):
         out.write("Document sysid: %s\n" % self.__document)
         
         out.write("FPI mappings:\n")
-        for it in self.__public.items():
+        for it in list(self.__public.items()):
             out.write("  %s -> %s\n" % it)
 
         out.write("Sysid mappings:\n")
-        for it in self.__system.items():
+        for it in list(self.__system.items()):
             out.write("  %s -> %s\n" % it)
             
         out.write("Delegates:\n")
@@ -230,7 +230,7 @@ class CatalogManager(CatalogApp):
     def get_public_ids(self):
         """Returns a list of all declared public indentifiers in this catalog
         and delegates."""
-        list=self.__public.keys()
+        list=list(self.__public.keys())
         for delegate in self.__delegations:
             list=list+delegate.get_public_ids()
 
@@ -257,7 +257,7 @@ class CatalogManager(CatalogApp):
             if not resolved:
                 try:
                     sysid=self.__public[pubid]
-                except KeyError,e:
+                except KeyError as e:
                     self.err.error("Unknown public identifier '%s'" % pubid)
 
             return sysid

@@ -24,17 +24,17 @@ class MyErrorHandler(xmlapp.ErrorHandler):
         self.reset()
 
     def __show_location(self,prefix,msg):
-        print "%s:%s: %s" % (prefix,self.get_location(),msg)
+        print("%s:%s: %s" % (prefix,self.get_location(),msg))
         if self.show_entstack:
-            print "  Document entity"
+            print("  Document entity")
             for item in self.parser.get_current_ent_stack():
-                print "  %s: %s" % item
+                print("  %s: %s" % item)
         if self.show_rawxml:
             raw=self.parser.get_raw_construct()
             if len(raw)>50:
-                print "  Raw construct too big, suppressed."
+                print("  Raw construct too big, suppressed.")
             else:
-                print "  '%s'" % raw
+                print("  '%s'" % raw)
         
     def get_location(self):
 	return "%s:%d:%d" % (self.locator.get_current_sysid(),\

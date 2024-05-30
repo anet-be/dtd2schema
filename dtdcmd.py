@@ -31,52 +31,52 @@ def paired_list_to_hash(list):
 # --- Functionality
 
 def listdecls(dtd):
-    print
-    print "=== DECLARATIONS"
-    print
-    print "---Elements"
+    print()
+    print("=== DECLARATIONS")
+    print()
+    print("---Elements")
     
     elems = dtd.get_elements()
     elems.sort()
     for elem in elems:
-        print elem
+        print(elem)
 
-    print
-    print "---Entities"
+    print()
+    print("---Entities")
 
     ents = dtd.get_general_entities()
     ents.sort()
     for ent in ents:
-        print ent
+        print(ent)
 
-    print
-    print "---Notations"
+    print()
+    print("---Notations")
 
     nots = dtd.get_notations()
     if nots == []:
-        print "No notations declared."
+        print("No notations declared.")
     else:
         nots.sort()
         for notation in nots:
-            print notation
+            print(notation)
 
 # --- Head
 
-print
-print "xmlproc version %s" % xmlproc.version
+print()
+print("xmlproc version %s" % xmlproc.version)
 
 # --- Argument interpretation
 
 try:
     (options,sysids)=getopt.getopt(sys.argv[1:],"",["list"])
-except getopt.error,e:
-    print "Usage error: "+e
-    print usage
+except getopt.error as e:
+    print("Usage error: "+e)
+    print(usage)
     sys.exit(1)
 
 options = paired_list_to_hash(options)
 
-list = options.has_key("--list")
+list = "--list" in options
 
 # --- Initialization
 
@@ -89,9 +89,9 @@ parser.set_error_handler(utils.ErrorPrinter(parser))
 # --- Parsing
 
 for sysid in sysids:
-    print "Parsing",sysid
+    print("Parsing",sysid)
     parser.parse_resource(sysid)
-print "Parsing complete"
+print("Parsing complete")
 
 # --- Reporting
 

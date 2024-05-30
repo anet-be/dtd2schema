@@ -8,9 +8,9 @@ and is probably the one most people want.
 $Id: xmlapp.py,v 2.4 2000/05/10 18:27:45 anonymous Exp $
 """
 
-import sys,urllib
+import sys,urllib.request,urllib.parse,urllib.error
 
-from xmlutils import *
+from .xmlutils import *
 
 # ==============================
 # The default application class
@@ -126,13 +126,13 @@ class ErrorHandler:
     def fatal(self,msg):
 	"Handles a fatal error message."
         if self.locator==None:
-            print "ERROR: "+msg
+            print("ERROR: "+msg)
         else:
-            print "ERROR: "+msg+" at %s:%d:%d" % (self.locator.get_current_sysid(),\
+            print("ERROR: "+msg+" at %s:%d:%d" % (self.locator.get_current_sysid(),\
 						  self.locator.get_line(),\
-						  self.locator.get_column())
-            print "TEXT: '%s'" % (self.locator.data[self.locator.pos:\
-                                                    self.locator.pos+10])
+						  self.locator.get_column()))
+            print("TEXT: '%s'" % (self.locator.data[self.locator.pos:\
+                                                    self.locator.pos+10]))
         sys.exit(1)
 
 # ==============================
@@ -153,7 +153,7 @@ class EntityHandler:
 
 	try:
 	    return (1,predef_ents[entname])
-	except KeyError,e:
+	except KeyError as e:
 	    self.parser.report_error(3021,entname)
 	    return (1,"")
 
@@ -224,4 +224,4 @@ class InputSourceFactory:
         if sysid[1:3]==":\\":
             return open(sysid)
         else:
-            return urllib.urlopen(sysid)
+            return urllib.request.urlopen(sysid)

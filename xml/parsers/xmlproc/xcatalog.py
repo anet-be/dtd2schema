@@ -3,7 +3,7 @@ Support for XCatalog catalog files.
 $Id: xcatalog.py,v 2.3 2000/01/03 15:43:01 larsga Exp $
 """
 
-import catalog,xmlapp,xmlproc
+from . import catalog,xmlapp,xmlproc
 
 # --- An XCatalog parser factory
 
@@ -59,7 +59,7 @@ class XCatalogParser(catalog.AbstrCatalogParser,xmlapp.Application):
                 self.app.handle_catalog(attrs["HRef"])
             elif name!="XCatalog":
                 self.parser.report_error(5000,(name,))
-        except KeyError,e:
+        except KeyError as e:
             if e.args[0]=="HRef" or e.args[0]=="PublicID" or e.args[0]=="HRef":
                 self.parser.report_error(5001,(e.args[0],name))
             else:

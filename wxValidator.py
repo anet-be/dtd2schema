@@ -1,5 +1,5 @@
 
-import os, cStringIO, string
+import os, io, string
 from wxPython.wx import *
 from xml.parsers.xmlproc import xmlval,xmlapp,xcatalog,catalog,errors, utils
 
@@ -107,9 +107,9 @@ class MainWindow(wxFrame):
         # --- Field: Catalog file location
 
         cat_loc=""
-        if os.environ.has_key("XMLXCATALOG"):
+        if "XMLXCATALOG" in os.environ:
             cat_loc=os.environ["XMLXCATALOG"]
-        elif os.environ.has_key("XMLSOCATALOG"):
+        elif "XMLSOCATALOG" in os.environ:
             cat_loc=os.environ["XMLSOCATALOG"]
         
         cat=wxTextCtrl(self,-1,cat_loc)
@@ -224,7 +224,7 @@ class MainWindow(wxFrame):
         self.SetStatusText("Parsing...")
 
         if self.output.GetValue():
-            output = cStringIO.StringIO()
+            output = io.StringIO()
             self.parser.set_application(utils.DocGenerator(output))
             
         self.parser.set_error_handler(self.errors)
@@ -236,8 +236,8 @@ class MainWindow(wxFrame):
         ix=0
         for (sysid,line,col,msg) in self.errors.errors:
             self.list.InsertStringItem(ix, sysid)
-            self.list.SetStringItem(ix, 1, `line`)
-            self.list.SetStringItem(ix, 2, `col`)
+            self.list.SetStringItem(ix, 1, repr(line))
+            self.list.SetStringItem(ix, 2, repr(col))
             self.list.SetStringItem(ix, 3, msg)
             ix=ix+1
 

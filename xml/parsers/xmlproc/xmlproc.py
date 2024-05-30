@@ -6,15 +6,15 @@ parsing, import xmlval instead.
 
 # $Id: xmlproc.py,v 2.19 2000/05/11 11:49:05 anonymous Exp $
    
-import re,string,sys,urllib,urlparse
+import re,string,sys,urllib.request,urllib.parse,urllib.error,urllib.parse
 
 string_translate=string.translate # optimization. made 10% difference!
 string_find     =string.find
 
-from dtdparser import *
-from xmlutils import *
-from xmlapp import *
-from xmldtd import *
+from .dtdparser import *
+from .xmlutils import *
+from .xmlapp import *
+from .xmldtd import *
 
 version="0.70"
 revision="$Revision: 2.19 $"
@@ -111,7 +111,7 @@ class XMLProcessor(XMLCommonParser):
                 else:
                     self.parse_data()
 
-        except IndexError,e:            
+        except IndexError as e:            
             # Means self.pos was outside the buffer when we did a raw
             # compare.  This is both a little ugly and fragile to
             # changes, but this loop is rather time-critical, so we do
@@ -123,7 +123,7 @@ class XMLProcessor(XMLCommonParser):
 		raise OutOfDataException()
 	    else:
 		self.pos=self.prepos  # Didn't complete the construct        
-	except OutOfDataException,e:
+	except OutOfDataException as e:
 	    if self.final:
 		raise e
 	    else:
@@ -176,13 +176,13 @@ class XMLProcessor(XMLCommonParser):
                         self.pos=self.pos-1  # Gets the '/>' cases right
                     break  
 
-                if seen.has_key(a_name):
+                if a_name in seen:
                     self.report_error(3016,a_name)
                 else:
                     seen[a_name]=1
 
                 attrs[a_name]=a_val
-                if fixeds.has_key(a_name) and fixeds[a_name]!=a_val:
+                if a_name in fixeds and fixeds[a_name]!=a_val:
                     self.report_error(2000,a_name)
                 self.skip_ws()
 
@@ -251,7 +251,7 @@ class XMLProcessor(XMLCommonParser):
                         self.pop_entity()
                     else:
                         self.report_error(3020)
-                except KeyError,e:
+                except KeyError as e:
                     self.report_error(3021,name) ## FIXME: Check standalone dcl
 
                 del self.open_ents[-1]
@@ -278,7 +278,7 @@ class XMLProcessor(XMLCommonParser):
         while 1:
             try:
                 piece=self.find_reg(reg_stop)
-            except OutOfDataException,e:
+            except OutOfDataException as e:
                 # Only character data left
                 val=val+string_translate(self.data[self.pos:],ws_trans)
                 self.pos=self.datasize
@@ -313,7 +313,7 @@ class XMLProcessor(XMLCommonParser):
                         self.pop_entity()
                     else:
                         self.report_error(3020)
-                except KeyError,e:
+                except KeyError as e:
                     self.report_error(3021,name)	       
 
                 del self.open_ents[-1]
@@ -350,7 +350,7 @@ class XMLProcessor(XMLCommonParser):
                 else:
                     self.stack.append(elem) # Put it back
 
-	except IndexError,e:
+	except IndexError as e:
 	    self.report_error(3024,name)
 
         self.app.handle_end_tag(name)
@@ -393,7 +393,7 @@ class XMLProcessor(XMLCommonParser):
 	else:
             try:
                 digs=int(self.get_match(reg_digits))
-            except ValueError,e:
+            except ValueError as e:
                 self.report_error(3027)
                 digs=None
 
@@ -426,7 +426,7 @@ class XMLProcessor(XMLCommonParser):
 
         try:
             ent=self.ent.resolve_ge(name)
-	except KeyError,e:
+	except KeyError as e:
 	    self.report_error(3021,name)
             return
 
@@ -552,7 +552,7 @@ class XMLProcessor(XMLCommonParser):
 		p.set_sysid(self.get_current_sysid())
                 p.final=1
 		p.feed(int_dtd)
-	    except OutOfDataException,e:
+	    except OutOfDataException as e:
 		self.report_error(3034)
 	finally:
             p.deref()
@@ -599,4 +599,4 @@ class XMLProcessor(XMLCommonParser):
     def get_current_ent_stack(self):
         """Returns a snapshot of the entity stack. A list of the system
         identifier of the entity and its name, if any."""
-        return map(lambda ent: (ent[0],ent[9]),self.ent_stack)
+        return [(ent[0],ent[9]) for ent in self.ent_stack]

@@ -5,7 +5,7 @@ documents referred to by parsed, auto-actuated XLinks.
 $Id: xlink.py,v 2.1 2000/01/18 21:43:15 larsga Exp $
 """
 
-import namespace, xmlutils, xmlproc
+from . import namespace, xmlutils, xmlproc
 
 # --- Constants
 

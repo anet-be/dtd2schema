@@ -67,7 +67,7 @@ class ESISDocHandler(xmlapp.Application):
 
     def handle_start_tag(self,name,amap):
 	self.writer.write("("+name+"\n")
-	for a_name in amap.keys():
+	for a_name in list(amap.keys()):
 	    self.writer.write("A"+a_name+" "+amap[a_name]+"\n")
 
     def handle_end_tag(self,name):
@@ -91,7 +91,7 @@ class Canonizer(xmlapp.Application):
     def handle_start_tag(self,name,amap):
 	self.writer.write("<"+name)
 	
-	a_names=amap.keys()
+	a_names=list(amap.keys())
 	a_names.sort()
 
 	for a_name in a_names:
@@ -141,7 +141,7 @@ class DocGenerator(xmlapp.Application):
 
     def handle_start_tag(self,name,amap):
 	self.out.write("<"+name)
-	for (name, value) in amap.items():
+	for (name, value) in list(amap.items()):
 	    self.out.write(' %s="%s"' % (name, escape_attval(value)))
 	self.out.write(">")
 
@@ -176,7 +176,7 @@ class DictResolver(xmlapp.PubIdResolver):
 # --- Various DTD and validation tools
 
 def load_dtd(sysid):
-    import dtdparser,xmldtd
+    from . import dtdparser,xmldtd
     
     dp=dtdparser.DTDParser()
     dtd=xmldtd.CompleteDTD(dp)
@@ -186,7 +186,7 @@ def load_dtd(sysid):
     return dtd
 
 def validate_doc(dtd,sysid):
-    import xmlval    
+    from . import xmlval    
 
     parser=xmlval.XMLValidator(dtd)
     parser.dtd=dtd # FIXME: what to do if there is a !DOCTYPE?

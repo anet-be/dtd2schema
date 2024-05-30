@@ -39,13 +39,13 @@ import sys, getopt, os, string
 # --- Utilities
 
 def print_usage(message):
-    print message
-    print usage
+    print(message)
+    print(usage)
     sys.exit(1)
 
 # --- Initialization
 
-print "xmlproc version %s" % xmlval.version
+print("xmlproc version %s" % xmlval.version)
 
 p=xmlval.XMLValidator()
 
@@ -54,7 +54,7 @@ p=xmlval.XMLValidator()
 try:
     (options,sysids)=getopt.getopt(sys.argv[1:],"c:l:o:n",
                                    ["nowarn","entstck","rawxml"])
-except getopt.error,e:
+except getopt.error as e:
     print_usage("Usage error: "+e)
     
 warnings=1
@@ -74,7 +74,7 @@ for option in options:
             p.set_error_language(option[1])
             err_lang=option[1]
         except KeyError:
-            print "Error: Language '%s' not available" % option[1]
+            print("Error: Language '%s' not available" % option[1])
     elif option[0]=="-o":
         if string.lower(option[1]) == "e":
             app = outputters.ESISDocHandler()            
@@ -110,15 +110,15 @@ else:
 
 if cat!=None:
     pf=xcatalog.FancyParserFactory(err_lang)
-elif cat==None and os.environ.has_key("XMLXCATALOG"):
+elif cat==None and "XMLXCATALOG" in os.environ:
     cat=os.environ["XMLXCATALOG"]
     pf=xcatalog.XCatParserFactory(err_lang)
-elif cat==None and os.environ.has_key("XMLSOCATALOG"):
+elif cat==None and "XMLSOCATALOG" in os.environ:
     cat=os.environ["XMLSOCATALOG"]
     pf=catalog.CatParserFactory(err_lang)
 
 if cat!=None:
-    print "Parsing catalog file '%s'" % cat
+    print("Parsing catalog file '%s'" % cat)
     cat=catalog.xmlproc_catalog(cat,pf,err)
     p.set_pubid_resolver(cat)
 
@@ -131,19 +131,19 @@ if len(sysids)==0:
                     "no DOCUMENT entry")
 
     sysids=[cat.get_document_sysid()]
-    print "Parsing DOCUMENT '%s' from catalog" % sysids[0]
+    print("Parsing DOCUMENT '%s' from catalog" % sysids[0])
 
 # --- Parsing
 
 for sysid in sysids:
-    print
-    print "Parsing '%s'" % sysid
+    print()
+    print("Parsing '%s'" % sysid)
     p.parse_resource(sysid)
-    print
-    print "Parse complete, %d error(s)" % err.errors,
+    print()
+    print("Parse complete, %d error(s)" % err.errors, end=' ')
     if warnings:
-        print "and %d warning(s)" % err.warnings
+        print("and %d warning(s)" % err.warnings)
     else:
-        print
+        print()
     err.reset()
     p.reset()

@@ -44,7 +44,7 @@ class CountingDict:
         self._items = {}
 
     def keys(self):
-        return self._items.keys()
+        return list(self._items.keys())
         
     def __getitem__(self, item):
         return self._items[item]
@@ -69,7 +69,7 @@ class AttributeInfo:
         attrname = attr.get_name()
         self._count.count(attrname)
         
-        if self._shared_attrs.has_key(attrname):
+        if attrname in self._shared_attrs:
             shared = self._shared_attrs[attrname]
             if shared != None and not compare_attrs(shared, attr):
                 self._shared_attrs[attrname] = None
@@ -79,7 +79,7 @@ class AttributeInfo:
         
     def remove_single_attributes(self):
         "Removes attributes that only occurred once."
-        for attrname in self._shared_attrs.keys():
+        for attrname in list(self._shared_attrs.keys()):
             if self._shared_attrs.get(attrname) != None:
                 if self._count[attrname] < 2:
                     self._shared_attrs[attrname] = None
@@ -94,12 +94,12 @@ class AttributeInfo:
 
     def remove_single_groups(self):
         "Removes groups that only occurred once."
-        for group in self._count.keys():
+        for group in list(self._count.keys()):
             if self._count[group] < 2:
                 del self._count[group]
 
     def get_groups(self):
-        return self._count.keys()
+        return list(self._count.keys())
 
     def get_attribute(self, name):
         return self._shared_attrs[name]
@@ -169,7 +169,7 @@ def write_attr(out, attr):
         value = ' value="%s"' % escape_attr_value(value)
 
     attrtype = attr.get_type()
-    if type(attrtype) == types.ListType:
+    if type(attrtype) == list:
         out.write('      <attribute name="%s" use="%s"%s>\n' %
                   (attr.get_name(), declmap[attr.get_decl()], value))
         out.write('        <simpleType base="NMTOKEN">\n')        
@@ -259,7 +259,7 @@ def write_cm(out, cm):
 # --- Interpreting command-line
 
 if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print usage
+    print(usage)
     sys.exit(1)
 
 infile = sys.argv[1]
@@ -272,21 +272,21 @@ else:
 
 # --- Doing the job
 
-print "\ndtd2schema.py\n"
+print("\ndtd2schema.py\n")
 
 # Load DTD
 
-print "Loading DTD..."
+print("Loading DTD...")
 dtd = xmldtd.load_dtd(infile)
 
 # Find attribute groups
 
-print "Doing reverse-engineering..."
+print("Doing reverse-engineering...")
 attrinfo = find_attr_groups(dtd)
 
 # Write out schema
 
-print "Writing out schema"
+print("Writing out schema")
 out = open(outfile, "w")
 
 out.write('<?xml version="1.0"?>\n')

@@ -37,9 +37,9 @@ from xml.parsers.xmlproc import xmlproc
 try:
     (options,sysids)=getopt.getopt(sys.argv[1:],"l:o:n",
                                    ["nowarn","entstck","rawxml","extsub"])
-except getopt.error,e:
-    print "Usage error: "+e
-    print usage
+except getopt.error as e:
+    print("Usage error: "+e)
+    print(usage)
     sys.exit(1)
     
 pf=None
@@ -57,7 +57,7 @@ for option in options:
         try:
             p.set_error_language(option[1])
         except KeyError:
-            print "Error language '%s' not available" % option[1]
+            print("Error language '%s' not available" % option[1])
     elif option[0]=="-o":
         if option[1]=="e" or option[1]=="E":
             app=outputters.ESISDocHandler()            
@@ -66,8 +66,8 @@ for option in options:
         elif option[1]=="n" or option[1]=="N":
             app=outputters.DocGenerator()
         else:
-            print "Error: Unknown output format "+option[1]
-            print usage
+            print("Error: Unknown output format "+option[1])
+            print(usage)
     elif option[0]=="-n":
         namespaces=1
     elif option[0]=="--nowarn":
@@ -94,8 +94,8 @@ else:
     p.set_application(app)
 
 if len(sysids)==0:
-    print "You must specify a file to parse"
-    print usage
+    print("You must specify a file to parse")
+    print(usage)
     sys.exit(1)
 
 if extsub:
@@ -103,19 +103,19 @@ if extsub:
     
 # --- Starting parse    
 
-print "xmlproc version %s" % xmlproc.version
+print("xmlproc version %s" % xmlproc.version)
 
 for sysid in sysids:
-    print
-    print "Parsing '%s'" % sysid
+    print()
+    print("Parsing '%s'" % sysid)
     p.set_data_after_wf_error(0)
     p.parse_resource(sysid)
-    print "Parse complete, %d error(s)" % err.errors,
+    print("Parse complete, %d error(s)" % err.errors, end=' ')
 
     if warnings:
-        print "and %d warning(s)" % err.warnings
+        print("and %d warning(s)" % err.warnings)
     else:
-        print
+        print()
     
     err.reset()
     p.reset()

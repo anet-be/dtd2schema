@@ -9,8 +9,8 @@ $Id: xmldtd.py,v 2.15 2000/05/11 11:48:24 anonymous Exp $
 
 import types
 
-from xmlutils import *
-from xmlapp import *
+from .xmlutils import *
+from .xmlapp import *
 
 # ==============================
 # WFC-DTD
@@ -33,7 +33,7 @@ class WFCDTD(DTDConsumer):
         self.used_notations={} # Notations used by NOTATION attrs
 
 	# Adding predefined entities
-	for name in predef_ents.keys():
+	for name in list(predef_ents.keys()):
 	    self.new_general_entity(name,predef_ents[name])        
             
     def set_dtd_listener(self,listener):
@@ -52,11 +52,11 @@ class WFCDTD(DTDConsumer):
 
     def get_general_entities(self):
 	"""Returns the names of all declared general entities."""
-        return self.gen_ents.keys()
+        return list(self.gen_ents.keys())
 
     def get_parameter_entities(self):
         "Returns the names of all declared parameter entities."
-        return self.param_ents.keys()
+        return list(self.param_ents.keys())
     
     def get_elem(self,name):
 	"""Returns the declaration of this element. Throws KeyError if the
@@ -65,7 +65,7 @@ class WFCDTD(DTDConsumer):
 
     def get_elements(self):
         "Returns a list of all declared element names."
-        return self.elems.keys()
+        return list(self.elems.keys())
 
     def get_notation(self,name):
         """Returns the declaration of the notation. Throws KeyError if the
@@ -86,7 +86,7 @@ class WFCDTD(DTDConsumer):
     def dtd_end(self):
         "Stores shortcut information."
         self.attrinfo={}
-        for elem in self.elems.values():
+        for elem in list(self.elems.values()):
             self.attrinfo[elem.get_name()]=(elem.get_default_attributes(),
                                             elem.get_fixed_attributes())
 
@@ -101,7 +101,7 @@ class WFCDTD(DTDConsumer):
 	"Receives the declaration of a new attribute."
         self.dtd_listener.new_attribute(elem,attr,a_type,a_decl,a_def)
         
-        if not self.elems.has_key(elem):
+        if elem not in self.elems:
 	    self.elems[elem]=ElementTypeAny(elem) # Adding dummy
 
         self.elems[elem].add_attr(attr,a_type,a_decl,a_def,self.parser)
@@ -120,7 +120,7 @@ class WFCDTD(DTDConsumer):
         self.dtd_listener.handle_pi(target, data)
         
     def new_general_entity(self,name,val):
-        if self.gen_ents.has_key(name):
+        if name in self.gen_ents:
             ## FIXME: May warn
             return # Keep first decl
         
@@ -129,7 +129,7 @@ class WFCDTD(DTDConsumer):
         self.dtd_listener.new_general_entity(name,val)
 
     def new_parameter_entity(self,name,val):
-        if self.param_ents.has_key(name):
+        if name in self.param_ents:
             ## FIXME: May warn
             return # Keep first decl
         
@@ -138,12 +138,12 @@ class WFCDTD(DTDConsumer):
         self.dtd_listener.new_parameter_entity(name,val)
 
     def new_external_entity(self,ent_name,pubid,sysid,ndata):
-        if self.gen_ents.has_key(ent_name):
+        if ent_name in self.gen_ents:
             ## FIXME: May warn
             return # Keep first decl
         
         if ndata!="" and hasattr(self,"notations"):
-            if not self.notations.has_key(ndata):
+            if ndata not in self.notations:
                 self.used_notations[ndata]=(ent_name,2023)
                 
         ent=ExternalEntity(ent_name,pubid,sysid,ndata)
@@ -151,7 +151,7 @@ class WFCDTD(DTDConsumer):
         self.dtd_listener.new_external_entity(ent_name,pubid,sysid,ndata)
 
     def new_external_pe(self,name,pubid,sysid):
-        if self.param_ents.has_key(name):
+        if name in self.param_ents:
             ## FIXME: May warn
             return # Keep first decl
         
@@ -200,7 +200,7 @@ class CompleteDTD(WFCDTD):
 
     def get_notations(self):
         """Returns the names of all declared notations."""
-        return self.notations.keys()
+        return list(self.notations.keys())
     
     # --- DTD parse events
 
@@ -208,14 +208,14 @@ class CompleteDTD(WFCDTD):
         WFCDTD.dtd_end(self)
         self.cmhash={}
         
-	for elem in self.attlists.keys():
+	for elem in list(self.attlists.keys()):
 	    self.parser.report_error(1006,elem)
 	self.attlists={}  # Not needed any more, can free this memory
 
-        for notation in self.used_notations.keys():
+        for notation in list(self.used_notations.keys()):
             try:
                 self.get_notation(notation)
-            except KeyError,e:
+            except KeyError as e:
                 self.parser.report_error(2022,(self.used_notations[notation],
                                                notation))
         self.used_notations={} # Not needed, save memory
@@ -225,7 +225,7 @@ class CompleteDTD(WFCDTD):
         self.dtd_listener.new_notation(name,pubid,sysid)
 
     def new_element_type(self,elem_name,elem_cont):
-	if self.elems.has_key(elem_name):
+	if elem_name in self.elems:
 	    self.parser.report_error(2012,elem_name)
             return  # Keeping first declaration
 
@@ -240,7 +240,7 @@ class CompleteDTD(WFCDTD):
             model=make_model(self.cmhash,elem_cont,self.parser)
 	    self.elems[elem_name]=ElementType(elem_name,model,elem_cont)
 
-	if self.attlists.has_key(elem_name):
+	if elem_name in self.attlists:
 	    for (attr,a_type,a_decl,a_def) in self.attlists[elem_name]:
 		self.elems[elem_name].add_attr(attr,a_type,a_decl,a_def,\
 					       self.parser)
@@ -253,10 +253,10 @@ class CompleteDTD(WFCDTD):
         self.dtd_listener.new_attribute(elem,attr,a_type,a_decl,a_def)
 	try:
 	    self.elems[elem].add_attr(attr,a_type,a_decl,a_def,self.parser)
-	except KeyError,e:
+	except KeyError as e:
 	    try:
 		self.attlists[elem].append((attr,a_type,a_decl,a_def))
-	    except KeyError,e:
+	    except KeyError as e:
 		self.attlists[elem]=[(attr,a_type,a_decl,a_def)]
                 
 # ==============================
@@ -288,20 +288,20 @@ class ElementType:
 	
     def add_attr(self,attr,a_type,a_decl,a_def,parser):
 	"Adds a new attribute to the element."
-	if self.attrhash.has_key(attr):
+	if attr in self.attrhash:
 	    parser.report_error(1007,attr)
             return  # Keep first declaration
 
         self.attrlist.append(attr)
         
 	if a_type=="ID":
-	    for attr_name in self.attrhash.keys():
+	    for attr_name in list(self.attrhash.keys()):
 		if self.attrhash[attr_name].type=="ID":
 		    parser.report_error(2013)
 
 	    if a_decl!="#REQUIRED" and a_decl!="#IMPLIED":
 		parser.report_error(2014)
-        elif type(a_type)==types.TupleType and a_type[0]=="NOTATION":
+        elif type(a_type)==tuple and a_type[0]=="NOTATION":
             for notation in a_type[1]:
                 parser.dtd.used_notations[notation]=attr
             
@@ -336,7 +336,7 @@ class ElementType:
             return [] # any better ideas?
 
         try:
-            return self.content_model[state].keys()
+            return list(self.content_model[state].keys())
         except KeyError:
             return []
         
@@ -350,7 +350,7 @@ class ElementType:
 
     def get_default_attributes(self):
         defs={}
-        for attr in self.attrhash.values():
+        for attr in list(self.attrhash.values()):
             if attr.get_default()!=None:
                 defs[attr.get_name()]=attr.get_default()
 
@@ -358,7 +358,7 @@ class ElementType:
 
     def get_fixed_attributes(self):
         fixed={}
-        for attr in self.attrhash.values():
+        for attr in list(self.attrhash.values()):
             if attr.get_decl()=="#FIXED":
                 fixed[attr.get_name()]=attr.get_default()
 
@@ -401,7 +401,7 @@ class Attribute:
         # Handling code for special attribute xml:space
         
         if name=="xml:space":
-            if type(self.type)==types.StringType:
+            if type(self.type)==bytes:
                 parser.report_error(2015)
                 return
 
@@ -419,7 +419,7 @@ class Attribute:
     def validate(self,value,parser):
 	"Validates given value for correctness."
 
-	if type(self.type)!=types.StringType:
+	if type(self.type)!=bytes:
 	    for val in self.type:
 		if val==value: return
 	    parser.report_error(2017,(value,self.name))
@@ -664,11 +664,11 @@ class ChoiceContentModel(ContentModel):
 def hash(included):
     "Creates a hash number from the included array."
     no=0
-    exp=1L
+    exp=1
     for state in included:
 	if state:
 	    no=no+exp
-	exp=exp*2L
+	exp=exp*2
 
     return no
 
@@ -697,7 +697,7 @@ def fnda2fda(transitions,final_state,parser):
     add_transitions(0,transitions,new_states,start_state,state_key,parser,
                     closure_hash)
     
-    states=new_states.keys()
+    states=list(new_states.keys())
     states.sort()
 
     #print_states(new_states,2)
@@ -707,7 +707,7 @@ def fnda2fda(transitions,final_state,parser):
 	    new_states["start"]=state
 	    break
 
-    new_states["final"]=pow(2L,final_state)
+    new_states["final"]=pow(2,final_state)
     return new_states
     
 def add_transitions(ix,transitions,new_states,cur_state_list,state_key,parser,
@@ -725,7 +725,7 @@ def add_transitions(ix,transitions,new_states,cur_state_list,state_key,parser,
 	if old_state:
 	    for (to,what) in transitions[no]:
 		if what!="":
-                    if new_trans.has_key(what):
+                    if what in new_trans:
                         new_trans[what].append(to)
                     else:
                         new_trans[what]=[to]
@@ -735,14 +735,14 @@ def add_transitions(ix,transitions,new_states,cur_state_list,state_key,parser,
     # Go through the list of transitions, creating new transitions and
     # destination states in the model
         
-    for (over,destlist) in new_trans.items():
+    for (over,destlist) in list(new_trans.items()):
         # creating new state                    
 
         # Reports ambiguity, but rather crudely. Will improve this later.
 #         if len(destlist)>1:
 #             parser.report_error(1008)
 
-        if len(destlist)==1 and closure_hash.has_key(destlist[0]):
+        if len(destlist)==1 and destlist[0] in closure_hash:
             # The closure of this state has been computed before, don't repeat
             new_state=closure_hash[destlist[0]]
         else:
@@ -756,7 +756,7 @@ def add_transitions(ix,transitions,new_states,cur_state_list,state_key,parser,
 
         # add transition and destination state
         new_states[state_key][over]=new_state
-        if not new_states.has_key(new_state):
+        if new_state not in new_states:
             add_transitions(to,transitions,new_states,new_inc,\
                             new_state,parser,closure_hash)
         
@@ -770,29 +770,29 @@ def compute_closure(ix,included,transitions):
 def print_trans(model):
     ix=0
     for transitions in model:        
-        print "STATE: %d" % ix
+        print("STATE: %d" % ix)
         for step in transitions:
-            print "  TO %d OVER %s" % step
+            print("  TO %d OVER %s" % step)
         ix=ix+1
-        raw_input()
+        input()
         
 def print_states(states,stop=0):
-    assert not (states.has_key("start") or states.has_key("final"))
+    assert not ("start" in states or "final" in states)
     
-    for trans_key in states.keys():
+    for trans_key in list(states.keys()):
 	trans=states[trans_key]
-	print "State: "+`trans_key`
+	print("State: "+repr(trans_key))
 	for (to,what) in trans:
 	    try:
-		print "  To: "+`to`+" over: "+what
-	    except TypeError,e:
-		print "ERROR: "+`what`
+		print("  To: "+repr(to)+" over: "+what)
+	    except TypeError as e:
+		print("ERROR: "+repr(what))
 
         if stop>1:
-            raw_input()
+            input()
 
     if stop:
-        raw_input()
+        input()
 
 def make_empty_model():
     "Constructs a state model for empty content models."
@@ -800,8 +800,8 @@ def make_empty_model():
 
 def make_model(cmhash,content_model,err):
     "Creates an FDA from the content model."
-    cm=`content_model`
-    if cmhash.has_key(cm):
+    cm=repr(content_model)
+    if cm in cmhash:
         return cmhash[cm]
     else:    
         content_model=make_objects(content_model)
@@ -837,7 +837,7 @@ def make_objects(content_model):
     
 def compile_content_model(cm):
     "Parses a content model string, returning a compiled content model."
-    import dtdparser,utils
+    from . import dtdparser,utils
 
     p=dtdparser.DTDParser()
     p.set_error_handler(utils.ErrorPrinter(p))
@@ -848,7 +848,7 @@ def compile_content_model(cm):
 
 def parse_content_model(cm):
     "Parses a content model string, returning a compiled content model."
-    import dtdparser,utils
+    from . import dtdparser,utils
 
     p=dtdparser.DTDParser()
     p.set_error_handler(utils.ErrorPrinter(p))
@@ -858,7 +858,7 @@ def parse_content_model(cm):
     return p._parse_content_model()
 
 def load_dtd(sysid):
-    import dtdparser,utils
+    from . import dtdparser,utils
     
     dp=dtdparser.DTDParser()
     dp.set_error_handler(utils.ErrorPrinter(dp))

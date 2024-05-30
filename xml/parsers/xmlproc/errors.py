@@ -15,7 +15,7 @@ def get_error_list(language):
     return error_lists[string.lower(language)]
 
 def get_language_list():
-    return error_lists.keys()
+    return list(error_lists.keys())
 
 # Errors in English
 

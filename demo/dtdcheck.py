@@ -30,7 +30,7 @@ class DTDReporter(xmlproc.DTDConsumer):
         self.out.write("ATTLIST: %s %s %s %s [%s]\n" % (elem,attr,a_type,a_decl,a_def))
 
     def new_element_type(self,elem_name,elem_cont):
-        self.out.write("ELEMENT: %s %s\n" % (elem_name,`elem_cont`))
+        self.out.write("ELEMENT: %s %s\n" % (elem_name,repr(elem_cont)))
 
     # --- Client methods
 

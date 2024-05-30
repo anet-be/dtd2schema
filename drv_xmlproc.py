@@ -236,10 +236,10 @@ class SAX_XPParser(saxlib.Parser,xmlproc.Application,xmlproc.DTDConsumer,
             self.parser.set_data_after_wf_error(state)
         elif featureId=="http://garshol.priv.no/sax/use-catalog":
             if state:
-                if os.environ.has_key("XMLXCATALOG"):
+                if "XMLXCATALOG" in os.environ:
                     self.catalog_file=os.environ["XMLXCATALOG"]
                     self.catalog_type=XCATALOG
-                elif os.environ.has_key("XMLSOCATALOG"):
+                elif "XMLSOCATALOG" in os.environ:
                     self.catalog_file=os.environ["XMLSOCATALOG"]
                     self.catalog_type=SOCATALOG
                 else:
@@ -278,7 +278,7 @@ class SAX_XPParser(saxlib.Parser,xmlproc.Application,xmlproc.DTDConsumer,
                                                    % propertyId)
 
     def setProperty(self, propertyId, value):
-        if pre_parse_properties.has_key(propertyId) and self.is_parsing:
+        if propertyId in pre_parse_properties and self.is_parsing:
             raise saxlib.SAXNotSupportedException("Not allowed to set "
                                                   "property %s during parsing"
                                                   % propertyId)

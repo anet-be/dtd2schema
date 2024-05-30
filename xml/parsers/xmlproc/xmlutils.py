@@ -4,9 +4,9 @@ Some common declarations for the xmlproc system gathered in one file.
 
 # $Id: xmlutils.py,v 2.13 2000/05/11 11:50:47 anonymous Exp $
    
-import string,re,urlparse,os,sys
+import string,re,urllib.parse,os,sys
 
-import xmlapp,charconv,errors
+from . import xmlapp,charconv,errors
 
 # Standard exceptions
 
@@ -70,7 +70,7 @@ class EntityParser:
 	self.current_sysID=sysID
 	try:
 	    infile=self.isf.create_input_source(sysID)
-	except IOError,e:
+	except IOError as e:
 	    self.report_error(3000,sysID)
 	    return
 	
@@ -88,7 +88,7 @@ class EntityParser:
 	    
 	try:
 	    inf=self.isf.create_input_source(sysID)
-	except IOError,e:
+	except IOError as e:
 	    self.report_error(3000,sysID)
 	    return
 
@@ -135,7 +135,7 @@ class EntityParser:
 
             try:
                 self.feed(buf)
-            except OutOfDataException,e:
+            except OutOfDataException as e:
                 break
 
     def reset(self):
@@ -204,7 +204,7 @@ class EntityParser:
             pos=self.pos
  	    try:
 		self.do_parse()
-	    except OutOfDataException,e:
+	    except OutOfDataException as e:
                 if pos!=self.pos:
                     self.report_error(3001)
                 
@@ -624,11 +624,11 @@ class XMLCommonParser(EntityParser):
                     pos=pos+1
 
                 self.pos=pos
-                return intern(data[start:pos])
+                return sys.intern(data[start:pos])
             except IndexError:
                 self.pos=pos
                 if self.final:
-                    return intern(data[start:])
+                    return sys.intern(data[start:])
                 else:
                     raise OutOfDataException()
         else:
@@ -662,22 +662,22 @@ def matches(regexp,str):
     return mo!=None and len(mo.group(0))==len(str)
 
 def join_sysids_general(base,url):
-    if urlparse.urlparse(base)[0]=="":
-        if urlparse.urlparse(url)[0]=="":
+    if urllib.parse.urlparse(base)[0]=="":
+        if urllib.parse.urlparse(url)[0]=="":
             return os.path.join(os.path.split(base)[0],url)
         else:
             return url
     else:
-        return urlparse.urljoin(base,url)
+        return urllib.parse.urljoin(base,url)
 
 def join_sysids_win32(base,url):
-    if len(urlparse.urlparse(base)[0])<2: # Handles drive identifiers correctly
-        if len(urlparse.urlparse(url)[0])<2:
+    if len(urllib.parse.urlparse(base)[0])<2: # Handles drive identifiers correctly
+        if len(urllib.parse.urlparse(url)[0])<2:
             return os.path.join(os.path.split(base)[0],url)
         else:
             return url
     else:
-        return urlparse.urljoin(base,url)    
+        return urllib.parse.urljoin(base,url)    
 
 # here join_sysids(base,url): is set to the correct function
 

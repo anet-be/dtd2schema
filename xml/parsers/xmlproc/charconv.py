@@ -50,7 +50,7 @@ cp1252_iso=[127,127,44,63,63,95,63,63,94,63,63,60,198,127,127,127,127,39,39,
             34,34,183,45,45,126,63,63,62,230,127,127,127]
 
 cp1252_iso_tbl=""
-for char in map(chr,range(128)+cp1252_iso+range(160,256)):
+for char in map(chr,list(range(128))+cp1252_iso+list(range(160,256))):
     cp1252_iso_tbl=cp1252_iso_tbl+char
 
 # --- Conversion functions
@@ -122,7 +122,7 @@ class ConverterDatabase:
             return 1
         
         try:
-            return self.__map[from_encoding].has_key(to_encoding)
+            return to_encoding in self.__map[from_encoding]
         except KeyError:
             return 0
 
@@ -142,7 +142,7 @@ class ConverterDatabase:
         from_encoding=self._canonize_name(from_encoding)
         to_encoding=self._canonize_name(to_encoding)
         
-        if not self.__map.has_key(from_encoding):
+        if from_encoding not in self.__map:
             self.__map[from_encoding]={}
 
         self.__map[from_encoding][to_encoding]=converter
@@ -150,7 +150,7 @@ class ConverterDatabase:
     def _canonize_name(self,name):
         "Returns the canonical form of a charset name."
         name=string.lower(name)
-        if self.__alias_map.has_key(name):
+        if name in self.__alias_map:
             return self.__alias_map[name]
         else:
             return name

@@ -10,8 +10,8 @@ import string
 
 string_find = string.find # optimization
 
-from xmlutils import *
-from xmldtd   import *
+from .xmlutils import *
+from .xmldtd   import *
 
 # ==============================
 # A DTD parser
@@ -129,7 +129,7 @@ class DTDParser(XMLCommonParser):
 
             try:
                 ent=self.dtd.resolve_pe(name)
-            except KeyError,e:
+            except KeyError as e:
                 self.report_error(3038,name)
                 return 
 
@@ -273,12 +273,12 @@ class DTDParser(XMLCommonParser):
             if self.final and self.includes_entered>0:
                 self.report_error(3043)                    
                 
-	except OutOfDataException,e:
+	except OutOfDataException as e:
 	    if self.final:
 		raise e
 	    else:
 		self.pos=prepos
-	except IndexError,e:
+	except IndexError as e:
 	    if self.final:
 		raise OutOfDataException()
 	    else:
@@ -403,7 +403,7 @@ class DTDParser(XMLCommonParser):
                         val=val+self.parse_ent_litval(ent.value)
                     else:
                         self.report_error(3037) # FIXME: Easily solved now...?
-                except KeyError,e:
+                except KeyError as e:
                     self.report_error(3038,name)
 
                 pos=endpos+1
@@ -432,7 +432,7 @@ class DTDParser(XMLCommonParser):
 
         try:
             ent=self.dtd.resolve_pe(name)
-	except KeyError,e:
+	except KeyError as e:
 	    self.report_error(3038,name)
             return 
 
@@ -472,7 +472,7 @@ class DTDParser(XMLCommonParser):
 
                 tokens={}
                 for token in a_type:
-                    if tokens.has_key(token):
+                    if token in tokens:
                         self.report_error(3044,(token,))
                     else:
                         tokens[token]=1
@@ -598,7 +598,7 @@ class DTDParser(XMLCommonParser):
 	while 1:
             try:
                 self.skip_ws()
-            except OutOfDataException,e:
+            except OutOfDataException as e:
                 raise e
             
 	    if self.now_at("|"):
@@ -662,7 +662,7 @@ class DTDParser(XMLCommonParser):
                     counter=counter+1
                     self.pos=self.pos+3
 
-        except OutOfDataException,e:
+        except OutOfDataException as e:
             if self.final:
                 self.report_error(3043)
                 
@@ -719,11 +719,11 @@ class DTDConsumerPE(DTDConsumer):
         self.used_notations = {}
 
     def new_parameter_entity(self,name,val):
-        if not self.param_ents.has_key(name):     #Keep first decl
+        if name not in self.param_ents:     #Keep first decl
             self.param_ents[name]=InternalEntity(name,val)
     
     def new_external_pe(self,name,pubid,sysid):
-        if not self.param_ents.has_key(name):     # Keep first decl
+        if name not in self.param_ents:     # Keep first decl
             self.param_ents[name]=ExternalEntity(name,pubid,sysid,"")
 
     def resolve_pe(self,name):
