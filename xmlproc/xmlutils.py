@@ -821,7 +821,3 @@ predef_ents = {
     'apos': '&#39;',
     'quot': '&#34;',
 }
-
-# Translation tables
-ws_trans = ''.maketrans('\r\t\n', '   ')  # Whitespace normalization
-id_trans = ''.maketrans('', '')           # Identity transform
